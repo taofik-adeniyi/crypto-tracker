@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const CoinItem = ({ coins }) => {
-  console.log(coins);
+  // console.log(coins);
   const {
+    id,
     name,
     current_price,
     market_cap_rank,
@@ -17,8 +19,8 @@ const CoinItem = ({ coins }) => {
   const percentageColor = price_change_percentage_24h < 0 ? '#ea3943' : '#16c784'
 
   const normalizeMarketCap = (market_cap) => {
-    if(market_cap > 1_000_000_000_000_000){
-        return `${Math.floor(market_cap / 1_000_000_000_000_000)} T`
+    if(market_cap > 1_000_000_000_000_000n){
+        return `${Math.floor(market_cap / 1_000_000_000_000_000n)} T`
     } if(market_cap > 1_000_000_000) {
         return `${Math.floor(market_cap / 1_000_000_000)} B`
     } if(market_cap > 1_000_000) {
@@ -28,8 +30,16 @@ const CoinItem = ({ coins }) => {
     }
     return market_cap
   }
+
+  const navigation = useNavigation()
+
+  const handleNavigate = () => {
+    console.log('pressed');
+    navigation.navigate('CoinDetail', {coinId: id})
+  }
+
   return (
-    <View style={styles.coinContainer}>
+    <TouchableOpacity onPress={handleNavigate} style={styles.coinContainer}>
       <Image
         style={{
           height: 20,
@@ -61,7 +71,7 @@ const CoinItem = ({ coins }) => {
         <Text style={styles.title}>{current_price.toFixed(2)}</Text>
         <Text style={{color: "white"}}>MCap {normalizeMarketCap(market_cap)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

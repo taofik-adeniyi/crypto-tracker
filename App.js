@@ -1,16 +1,23 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import CoinDetail from "./src/screens/CoinDetail";
-
-import CryptoList from "./src/screens/CrypoList";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./src/navigation";
+import WishList from "./src/context/wishlist";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <CryptoList /> */}
-      <CoinDetail />
-      <StatusBar style="light" />
-    </View>
+    <NavigationContainer
+      theme={{
+        colors: { background: "#121212" },
+      }}
+    >
+      <WishList>
+        <View style={styles.container}>
+          <Navigation />
+          <StatusBar style="light" />
+        </View>
+      </WishList>
+    </NavigationContainer>
   );
 }
 

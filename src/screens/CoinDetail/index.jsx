@@ -1,53 +1,78 @@
-import { View, Text, TextInput, Dimensions } from "react-native";
-import React, { useState } from "react";
+import { View, Text, TextInput, Dimensions, ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from "react";
 import Header from "./comps/Header";
 import { AntDesign } from "@expo/vector-icons";
 import {ChartDot, ChartPath, ChartPathProvider, ChartYLabel} from '@rainbow-me/animated-charts'
 import coindata from "../../../assets/data/crypto.json";
 import styles from "./styles";
+import { useRoute } from "@react-navigation/native";
+import { getDetailedCoinData, getCoinMarketCap } from "../../services/requests";
 
 const CoinDetail = () => {
-    const {
-        image: { small },
-        symbol,
-        prices,
-        name,
-        market_data: {
-            market_cap_rank,
-            current_price,
-            price_change_percentage_24h,
-        },
-    } = coindata;
+  const [coin, setCoin] = useState(null)
+  const [coinMarketData, setCoinMarketData] = useState(null)
+  const route = useRoute()
 
-    const [coinValue, setCoinValue] = useState(1)
-    const [usdValue, setUsdValue] = useState(current_price.usd)
-
-    const changeCoinValue = (value) => {
-        setCoinValue(value)
-        const floatValue = parseFloat(value.replace(',' , '.')) || 0
-        setUsdValue((floatValue * current_price.usd).toString())
-    }
-
-    const changeUsdValue = (value) => {
-        setUsdValue(value)
-        const floatValue = parseFloat(value.replace(',' , '.')) || 0
-        setCoinValue((floatValue / current_price.usd).toString())
-    }
+    const {params: { coinId } } = route
+    const [loading, setLoading] = useState(false)
+    const [coinValue, setCoinValue] = useState("1")
+    const [usdValue, setUsdValue] = useState("")
     
-    const percentageColor = price_change_percentage_24h < 0 ? '#ea3943' : '#16c784';
-
-    const chartValueColor = current_price.usd > prices[0][1] ? '#16c784' : '#ea3943'
-
-    const screenWidth = Dimensions.get("window").width;
-
-    const formatCurrency = (value) => {
-        "worklet";
-        if(value === ""){
-            return `$${current_price.usd.toFixed(2)}`
-        }
-        return `$${parseFloat(value).toFixed(2)}`
+    const fetchData = async () => {
+      setLoading(true)
+      const data = await getDetailedCoinData(coinId)
+      const data1 = await getCoinMarketCap(coinId)
+      setCoin(data)
+      setCoinMarketData(data1)
+      setUsdValue(data.market_data.current_price.usd.toString())
+      setLoading(false)
     }
 
+    useEffect(()=> {
+      fetchData()
+    }, [])
+
+    if (loading || !coin || !coinMarketData) {
+      return <ActivityIndicator size="large" />
+    }
+
+    const {
+      id,
+      image: { small },
+      symbol,
+      name,
+      market_data: {
+          market_cap_rank,
+          current_price,
+          price_change_percentage_24h,
+      },
+  } = coin;
+
+  const { prices } = coinMarketData
+
+  const percentageColor = price_change_percentage_24h < 0 ? '#ea3943' : '#16c784';
+  const chartValueColor = current_price.usd > prices[0][1] ? '#16c784' : '#ea3943'
+  const screenWidth = Dimensions.get("window").width;
+
+  const changeCoinValue = (value) => {
+    setCoinValue(value)
+    const floatValue = parseFloat(value.replace(',' , '.')) || 0
+    setUsdValue((floatValue * current_price.usd).toString())
+}
+
+const changeUsdValue = (value) => {
+    setUsdValue(value)
+    const floatValue = parseFloat(value.replace(',' , '.')) || 0
+    setCoinValue((floatValue / current_price.usd).toString())
+}
+const formatCurrency = (value) => {
+  "worklet";
+  if(value === ""){
+      return `$${current_price.usd.toFixed(2)}`
+  }
+  return `$${parseFloat(value).toFixed(2)}`
+}
+    
   return (
     <View style={{ paddingHorizontal: 10 }}>
     <ChartPathProvider 
@@ -57,7 +82,7 @@ const CoinDetail = () => {
             smoothingStrategy: 'bezier' 
         }}>
 
-      <Header symbol={symbol} image={small} market_cap_rank={market_cap_rank} />
+      <Header coinId={id} symbol={symbol} image={small} market_cap_rank={market_cap_rank} />
       <View style={styles.priceContainer}>
         <View>
           <Text style={styles.name}>{name}</Text>
