@@ -16,17 +16,17 @@ const CoinItem = ({ coins }) => {
     image
   } = coins;
 
-  const percentageColor = price_change_percentage_24h < 0 ? '#ea3943' : '#16c784'
+  const percentageColor = price_change_percentage_24h < 0 ? '#ea3943' : '#16c784' || '#ffffff'
 
   const normalizeMarketCap = (market_cap) => {
-    if(market_cap > 1_000_000_000_000_000n){
-        return `${Math.floor(market_cap / 1_000_000_000_000_000n)} T`
-    } if(market_cap > 1_000_000_000) {
-        return `${Math.floor(market_cap / 1_000_000_000)} B`
-    } if(market_cap > 1_000_000) {
-        return `${Math.floor(market_cap / 1_000_000)} M`
-    }if(market_cap > 1_000) {
-        return `${Math.floor(market_cap / 1_000)} K`
+    if(market_cap > 1e12){
+        return `${Math.floor(market_cap / 1e12)} T`
+    } if(market_cap > 1e9) {
+        return `${Math.floor(market_cap / 1e9)} B`
+    } if(market_cap > 1e6) {
+        return `${Math.floor(market_cap / 1e6)} M`
+    }if(market_cap > 1e3) {
+        return `${Math.floor(market_cap / 1e3)} K`
     }
     return market_cap
   }
@@ -64,7 +64,7 @@ const CoinItem = ({ coins }) => {
             color={percentageColor}
             style={{ alignSelf: "center", marginRight: 5 }}
           />
-          <Text style={{color: percentageColor}}>{price_change_percentage_24h.toFixed(2)}%</Text>
+          <Text style={{color: percentageColor}}>{price_change_percentage_24h?.toFixed(2)}%</Text>
         </View>
       </View>
       <View style={{ marginLeft: "auto", alignItems: 'flex-end' }}>
