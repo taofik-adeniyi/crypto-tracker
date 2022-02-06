@@ -41,3 +41,11 @@ export const getWishListCoins = async (pageNumber=1, coinIds) => {
       console.log(e);
     }
   }
+export const getAllCoins = async () => {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/list?include_platform=false`)
+        return res.data
+    } catch (e) {
+        console.log(e);
+    }
+}
