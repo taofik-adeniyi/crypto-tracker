@@ -68,6 +68,7 @@ const Home = (props) => {
           <View>
             {/* <Text style={{ color: "white", fontSize: 20, fontWeight: '700' }}>Good afternoon, Taofik</Text> */}
             <Text style={{ color: "white", fontSize: 15, fontWeight: '600', fontFamily: fonts.Merriweather_900Black_Italic }}>Welcome to Vox, Taofik ..</Text>
+            <Text style={{color: 'gray', fontSize: 12, paddingTop: 5, fontFamily: fonts.DroidSans}}>Powered by Coingecko</Text>
           </View>
           <Pressable onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
           <MaterialCommunityIcons name="account-arrow-left-outline" size={26} color="white" />
