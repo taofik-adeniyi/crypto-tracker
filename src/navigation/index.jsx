@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../screens/Home';
 import CoinDetail from '../screens/CoinDetail';
+import CoinDetailNewChart from '../screens/CoinDetailNewChart';
 import Bottom from './bottom';
 import WalletDetail from '../screens/WalletDetail';
 import Settings from '../screens/Settings';
@@ -18,7 +19,8 @@ const Navigation = () => {
   return (
     <Stack.Navigator initRouteName="Root" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Root" component={Bottom} />
-        <Stack.Screen name="CoinDetail" component={CoinDetail} />
+        {/* <Stack.Screen name="CoinDetail" component={CoinDetail} /> */}
+        <Stack.Screen name="CoinDetail" component={CoinDetailNewChart} />
         <Stack.Screen name="WalletDetail" component={WalletDetail} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="ProfileDrawer" component={MyDrawer} />
