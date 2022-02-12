@@ -20,13 +20,13 @@ const CoinItem = ({ coins }) => {
 
   const normalizeMarketCap = (market_cap) => {
     if(market_cap > 1e12){
-        return `${Math.floor(market_cap / 1e12)} T`
+        return `${(market_cap / 1e12).toFixed(3)} T`
     } if(market_cap > 1e9) {
-        return `${Math.floor(market_cap / 1e9)} B`
+        return `${(market_cap / 1e9).toFixed(3)} B`
     } if(market_cap > 1e6) {
-        return `${Math.floor(market_cap / 1e6)} M`
+        return `${(market_cap / 1e6).toFixed(3)} M`
     }if(market_cap > 1e3) {
-        return `${Math.floor(market_cap / 1e3)} K`
+        return `${(market_cap / 1e3).toFixed(3)} K`
     }
     return market_cap
   }
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 0.3,
     borderBottomColor: "#282828",
     padding: 15,
+    backgroundColor: '#121212'
   },
 });
 

@@ -26,6 +26,14 @@ const styles = StyleSheet.create({
       padding: 10,
       fontSize: 16,
       color: 'white'
+    },
+    datefilterContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      backgroundColor: '#2B2B2B',
+      paddingVertical: 5,
+      borderRadius: 5,
+      marginVertical: 10
     }
   });
 
