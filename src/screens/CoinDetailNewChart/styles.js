@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#2B2B2B',
       paddingVertical: 5,
       borderRadius: 5,
-      marginVertical: 10
+      marginVertical: 10,
+      marginBottom: 20
     }
   });
 

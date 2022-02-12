@@ -5,7 +5,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import Header from "./comps/Header";
 import { AntDesign } from "@expo/vector-icons";
 import {
@@ -17,8 +17,15 @@ import {
 import coindata from "../../../assets/data/crypto.json";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
-import { getDetailedCoinData, getCoinMarketCap } from "../../services/requests";
+import {
+  getDetailedCoinData,
+  getCoinMarketCap,
+  getCandleChartData,
+} from "../../services/requests";
 import FilterDate from "./comps/FilterDate";
+import { LineChart, CandlestickChart } from "react-native-wagmi-charts";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const filterDaysArray = [
   { filterText: "24h", filterDay: "1" },
@@ -30,6 +37,7 @@ const filterDaysArray = [
 const CoinDetail = () => {
   const [coin, setCoin] = useState(null);
   const [coinMarketData, setCoinMarketData] = useState(null);
+  const [coinCandleChartData, setCoinCandleChartData] = useState(null);
   const route = useRoute();
 
   const {
@@ -39,6 +47,7 @@ const CoinDetail = () => {
   const [coinValue, setCoinValue] = useState("1");
   const [usdValue, setUsdValue] = useState("");
   const [selectedRange, setSelectedRange] = useState("1");
+  const [isCandleChartVisible, setIsCandleChartVisible] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -56,12 +65,27 @@ const CoinDetail = () => {
     setCoinMarketData(data);
     // setLoading(false)
   };
+
+  const fetchCandleStickChartData = async (selectedRange) => {
+    const data = await getCandleChartData(coinId, selectedRange);
+    setCoinCandleChartData(data);
+  };
+
   useEffect(() => {
     fetchData();
     fetchMarketCoinData("1");
+    fetchCandleStickChartData();
   }, []);
 
-  if (loading || !coin || !coinMarketData) {
+  const handleRangeChange = (selectedRange) => {
+    setSelectedRange(selectedRange);
+    fetchMarketCoinData(selectedRange);
+    fetchCandleStickChartData(selectedRange);
+  };
+
+  const callHandleRangeChange = useCallback((range) => handleRangeChange(range), [selectedRange])
+
+  if (loading || !coin || !coinMarketData || !coinCandleChartData) {
     return <ActivityIndicator size="large" />;
   }
 
@@ -96,7 +120,7 @@ const CoinDetail = () => {
     const floatValue = parseFloat(value.replace(",", ".")) || 0;
     setCoinValue((floatValue / current_price.usd).toString());
   };
-  const formatCurrency = (value) => {
+  const formatCurrency = ({ value }) => {
     "worklet";
     if (value === "") {
       if (current_price.usd < 1) {
@@ -110,19 +134,21 @@ const CoinDetail = () => {
     return `$${parseFloat(value).toFixed(2)}`;
   };
 
-  const handleRangeChange = (selectedRange) => {
-    setSelectedRange(selectedRange);
-    fetchMarketCoinData(selectedRange);
-  };
+  
+
+  console.log(coinCandleChartData);
 
   return (
     <View style={{ paddingHorizontal: 10 }}>
-      <ChartPathProvider
+      {/* <ChartPathProvider
         data={{
           points: prices.map((price) => ({ x: price[0], y: price[1] })),
           // data={{ points: prices.map(([x,y]) => ({x: x, y: y})),
           // smoothingStrategy: 'bezier'
         }}
+      > */}
+      <LineChart.Provider
+        data={prices.map(([timestamp, value]) => ({ timestamp, value }))}
       >
         <Header
           coinId={id}
@@ -133,7 +159,11 @@ const CoinDetail = () => {
         <View style={styles.priceContainer}>
           <View>
             <Text style={styles.name}>{name}</Text>
-            <ChartYLabel format={formatCurrency} style={styles.currentPrice} />
+            <LineChart.PriceText
+              format={formatCurrency}
+              style={styles.currentPrice}
+            />
+            {/* <ChartYLabel format={formatCurrency} style={styles.currentPrice} /> */}
             {/* <Text style={styles.currentPrice}>${current_price.usd}</Text> */}
           </View>
           <View
@@ -164,9 +194,15 @@ const CoinDetail = () => {
               filterDay={day.filterDay}
               filterText={day.filterText}
               selectedRange={selectedRange}
-              handleRangeChange={handleRangeChange}
+              handleRangeChange={callHandleRangeChange}
             />
           ))}
+          {isCandleChartVisible ? (
+            <MaterialIcons name="show-chart" size={24} color="#16c784" onPress={()=> setIsCandleChartVisible(false)} />
+          ) : (
+            <MaterialCommunityIcons name="candle" size={24} color="#16c784" onPress={()=> setIsCandleChartVisible(true)} />
+          )}
+
           {/* <FilterDate filterDay="1" filterText="24h" selectedRange={selectedRange} handleRangeChange={handleRangeChange} />
         <FilterDate filterDay="7" filterText="7d" selectedRange={selectedRange} handleRangeChange={handleRangeChange} />
         <FilterDate filterDay="30" filterText="30d" selectedRange={selectedRange} handleRangeChange={handleRangeChange} />
@@ -182,6 +218,72 @@ const CoinDetail = () => {
           />
           <ChartDot style={{ backgroundColor: chartValueColor }} />
         </View> */}
+
+        {isCandleChartVisible ? (
+          <CandlestickChart.Provider
+            data={coinCandleChartData.map(
+              ([timestamp, open, high, low, close]) => ({
+                timestamp,
+                open,
+                high,
+                low,
+                close,
+              })
+            )}
+          >
+            <CandlestickChart height={screenWidth / 2} width={screenWidth}>
+              <CandlestickChart.Candles />
+              <CandlestickChart.Crosshair>
+                <CandlestickChart.Tooltip />
+              </CandlestickChart.Crosshair>
+            </CandlestickChart>
+            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+              <View style={{flexDirection: "column"}}>
+                <Text style={{color: 'grey', paddingRight: 5}}>Open</Text>
+              <CandlestickChart.PriceText
+                style={{ color: "white", fontWeight: "700" }}
+                type="open"
+              />
+              </View>
+              <View style={{flexDirection: "column"}}>
+              <Text style={{color: 'grey', paddingRight: 5}}>High</Text>
+              <CandlestickChart.PriceText
+                style={{ color: "white", fontWeight: "700" }}
+                type="high"
+              />
+              </View>
+              <View style={{flexDirection: "column"}}>
+              <Text style={{color: 'grey', paddingRight: 5}}>Low</Text>
+              <CandlestickChart.PriceText
+                style={{ color: "white", fontWeight: "700" }}
+                type="low"
+              />
+              </View>
+              <View style={{flexDirection: "column"}}>
+              <Text style={{color: 'grey', paddingRight: 5}}>Close</Text>
+              <CandlestickChart.PriceText
+                style={{ color: "white", fontWeight: "700" }}
+                type="close"
+              />
+              </View>
+              
+            </View>
+            <View style={{flexDirection: "column", marginVertical: 10}}>
+              <Text style={{color: 'grey', paddingRight: 5}}>Date</Text>
+              <CandlestickChart.DatetimeText
+                style={{ color: "white", fontWeight: "700" }}
+                type="close"
+              />
+              </View>
+          </CandlestickChart.Provider>
+        ) : (
+          <LineChart height={screenWidth / 2} width={screenWidth}>
+            <LineChart.Path color={chartValueColor} />
+            <LineChart.CursorCrosshair color={chartValueColor} />
+            <LineChart.CursorLine />
+          </LineChart>
+        )}
+
         <View style={{ flexDirection: "row" }}>
           <View style={{ flexDirection: "row", flex: 1 }}>
             <Text style={{ color: "white", alignSelf: "center" }}>
@@ -204,7 +306,8 @@ const CoinDetail = () => {
             />
           </View>
         </View>
-      </ChartPathProvider>
+        {/* </ChartPathProvider> */}
+      </LineChart.Provider>
     </View>
   );
 };

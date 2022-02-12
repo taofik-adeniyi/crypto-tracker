@@ -50,3 +50,13 @@ export const getAllCoins = async () => {
         console.log(e);
     }
 }
+
+
+export const getCandleChartData = async (coinId, days = 1) => {
+    try {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=usd&days=${days}`)
+        return res.data
+    } catch (e) {
+        console.log(e);
+    }
+}
