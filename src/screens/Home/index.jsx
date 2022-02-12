@@ -8,12 +8,14 @@ import TopCoins from "./comps/TopCoins";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import axios from 'axios'
 import { fonts } from '../../utils/constants'
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
 
-const Home = () => {
+const Home = (props) => {
+  console.log('the props', props);
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(null);
   const navigation = useNavigation()
+  console.log('my nav', navigation.dispatch);
 
   const fetchCoins = async (pageNumber) => {
     if (loading) return;
@@ -67,7 +69,7 @@ const Home = () => {
             {/* <Text style={{ color: "white", fontSize: 20, fontWeight: '700' }}>Good afternoon, Taofik</Text> */}
             <Text style={{ color: "white", fontSize: 15, fontWeight: '600', fontFamily: fonts.Merriweather_900Black_Italic }}>Welcome to Vox, Taofik ..</Text>
           </View>
-          <Pressable onPress={() => navigation.navigate('Profile')}>
+          <Pressable onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
           <MaterialCommunityIcons name="account-arrow-left-outline" size={26} color="white" />
           </Pressable>
         </View>
