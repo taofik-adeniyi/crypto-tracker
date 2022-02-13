@@ -21,7 +21,7 @@ const Profile = () => {
     //   />
     // </DrawerContentScrollView>
     <View>
-      {/* <Text style={{ color: "white" }}>Toggle drawer</Text> */}
+      <Text style={{ color: "white" }}>Profile Page</Text>
     </View>
   );
 };

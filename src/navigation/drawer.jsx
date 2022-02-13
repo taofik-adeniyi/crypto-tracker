@@ -13,21 +13,23 @@ import Settings from "../screens/Settings";
 import BottomNavigator from "./bottom";
 import CoinDetailNewChart from "../screens/CoinDetailNewChart";
 import WalletDetail from "../screens/WalletDetail";
+import DrawerScreen from "../container/DrawerScreen";
 
 
 
 function CustomDrawerContent(props) {
   return (
-    <DrawerContentScrollView {...props} style={{backgroundColor: 'gray'}}>
+    <DrawerContentScrollView {...props} style={{backgroundColor: 'gray', flex: 1}}>
       {/* <DrawerItemList {...props} /> */}
-      <DrawerItem
+      {/* <DrawerItem
         label="Close drawer"
         onPress={() => props.navigation.closeDrawer()}
         />
       <DrawerItem
         label="Toggle drawer"
         onPress={() => props.navigation.toggleDrawer()}
-        />
+        /> */}
+        <DrawerScreen />
     </DrawerContentScrollView>
   );
 }
@@ -60,6 +62,7 @@ const MyView = () => {
     </View>
   )
 }
+
 const DrawerNavigator = () => {
   return (
       <Drawer.Navigator
@@ -68,7 +71,9 @@ const DrawerNavigator = () => {
       >
         <Drawer.Screen name="Bottom" component={MyBottomStack} />
         <Drawer.Screen name="CoinDetail" component={CoinDetailNewChart} />
-        <Drawer.Screen name="WalletDetail" component={MyWalletDetail} />
+        <Drawer.Screen name="WalletDetail" component={WalletDetail} />
+        <Drawer.Screen name="Profile" component={Profile} />
+        <Drawer.Screen name="Settings" component={Settings} />
       </Drawer.Navigator>
   );
 };

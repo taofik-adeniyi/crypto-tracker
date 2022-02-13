@@ -4,7 +4,7 @@ import React from 'react'
 const Settings = () => {
   return (
     <View>
-      <Text style={{color: 'white'}}>Settings</Text>
+      <Text style={{color: 'white'}}>Settings Screen</Text>
     </View>
   )
 }
