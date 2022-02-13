@@ -1,8 +1,6 @@
 // import 'react-native-gesture-handler';
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import Navigation from "./src/navigation";
+import { useEffect } from "react"
 import WishList from "./src/context/wishlist";
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { 
@@ -15,8 +13,12 @@ import {
   Merriweather_900Black,
   Merriweather_900Black_Italic 
 } from '@expo-google-fonts/merriweather';
+import IntroSlider from "./src/context/introslider";
+import Theme from "./src/context/theme";
+import AppNavigationContainer from "./AppNavigationContainer";
 
 export default function App() {
+
   let [fontsLoaded] = useFonts({
     Inter_900Black,
     Merriweather_300Light,
@@ -29,29 +31,21 @@ export default function App() {
     Merriweather_900Black_Italic,
     DroidSans: require('./assets/fonts/DroidSans.ttf') 
   });
+
   if(!fontsLoaded){
     return <ActivityIndicator size="large" />
   }
+
+
   return (
-    <NavigationContainer
-      theme={{
-        colors: { background: "#121212" },
-      }}
-    >
+    <Theme>
+      <IntroSlider>
       <WishList>
-        <View style={styles.container}>
-          <Navigation />
-          <StatusBar style="light" />
-        </View>
+        <AppNavigationContainer />
       </WishList>
-    </NavigationContainer>
+    </IntroSlider>
+    </Theme>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#121212",
-    paddingTop: 50,
-  },
-});
+

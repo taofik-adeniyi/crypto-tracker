@@ -41,7 +41,7 @@ const CoinDetail = () => {
   const route = useRoute();
 
   const {
-    params: { coinId },
+    params: { coinId  },
   } = route;
   const [loading, setLoading] = useState(false);
   const [coinValue, setCoinValue] = useState("1");

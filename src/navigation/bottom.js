@@ -9,6 +9,7 @@ import { Fontisto } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Wallet from "../screens/Wallet";
 import Market from "../screens/Market";
+
 const Tab = createBottomTabNavigator();
 
 const Bottom = () => {
