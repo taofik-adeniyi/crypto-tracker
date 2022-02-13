@@ -39,10 +39,10 @@ const CoinDetail = () => {
   const [coinMarketData, setCoinMarketData] = useState(null);
   const [coinCandleChartData, setCoinCandleChartData] = useState(null);
   const route = useRoute();
-
   const {
     params: { coinId  },
   } = route;
+
   const [loading, setLoading] = useState(false);
   const [coinValue, setCoinValue] = useState("1");
   const [usdValue, setUsdValue] = useState("");
