@@ -14,6 +14,7 @@ import {
   Merriweather_900Black_Italic 
 } from '@expo-google-fonts/merriweather';
 import IntroSlider from "./src/context/introslider";
+import Auth from "./src/context/auth";
 import Theme from "./src/context/theme";
 import AppNavigationContainer from "./AppNavigationContainer";
 

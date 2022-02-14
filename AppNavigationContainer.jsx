@@ -4,7 +4,7 @@ import React from 'react'
 import { useThemeContext } from './src/context/theme'
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/navigation";
-
+import Auth from './src/context/auth'
 
 const AppNavigationContainer = () => {
     const { theme } = useThemeContext()
@@ -15,10 +15,12 @@ const AppNavigationContainer = () => {
         colors: { background: theme.appBg },
       }}
     >
+      <Auth>
         <View style={styles.container}>
           <Navigation />
           <StatusBar style="light" />
         </View>
+      </Auth>
     </NavigationContainer>
   )
 }

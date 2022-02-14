@@ -12,9 +12,11 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
+import { useAuthContext } from "../../context/auth";
 
 const DrawerScreen = () => {
   const route = useRoute();
+  const { logOut } = useAuthContext()
   const { dark, theme, toggle } = useThemeContext();
   const navigation = useNavigation();
   const handleNavigate = (route) => {
@@ -154,7 +156,7 @@ const DrawerScreen = () => {
           paddingLeft: 10,
           alignItems: "center",
         }}
-        onPress={() => console.warn("sign out")}
+        onPress={() => logOut()}
       >
         <Text style={{ color: "black", fontWeight: "500" }}>Sign out</Text>
       </TouchableOpacity>

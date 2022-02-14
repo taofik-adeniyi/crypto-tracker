@@ -41,35 +41,18 @@ const MyBottomStack = ({navigation}) => {
     <Stack.Screen options={{headerShown: false}} name="Bottom" component={BottomNavigator} />
   </Stack.Navigator>
 }
-const MyCoinDetailNewChart = ({navigation}) => {
-  return <Stack.Navigator>
-    <Stack.Screen name="CoinDetail" component={CoinDetailNewChart} />
-  </Stack.Navigator>
-}
-const MyWalletDetail = ({navigation}) => {
-  return <Stack.Navigator>
-    <Stack.Screen name="WalletDetail" component={WalletDetail} />
-  </Stack.Navigator>
-}
+
 const Drawer = createDrawerNavigator();
 
-const MyView = () => {
-  const route = useRoute()
-  console.log(route.params.coinId, 'the route of my view');
-  return (
-    <View>
-      <Text style={{color: 'red'}}>Text</Text>
-    </View>
-  )
-}
 
 const DrawerNavigator = () => {
   return (
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{headerShown: false}}
+        initialRouteName="Bottom"
       >
-        <Drawer.Screen name="Bottom" component={MyBottomStack} />
+        <Drawer.Screen name="Bottom" component={BottomNavigator} />
         <Drawer.Screen name="CoinDetail" component={CoinDetailNewChart} />
         <Drawer.Screen name="WalletDetail" component={WalletDetail} />
         <Drawer.Screen name="Profile" component={Profile} />

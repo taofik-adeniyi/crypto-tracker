@@ -82,12 +82,12 @@ const IntroSlider = () => {
 
   const handleDone = () => {
     saveIntroAppScreen('false')
-    navigation.navigate('Bottom')
+    navigation.navigate('Login')
   }
   
   const handleSkip = () => {
     saveIntroAppScreen('false')
-    navigation.navigate('Bottom')
+    navigation.navigate('Login')
   }
 
   return (
