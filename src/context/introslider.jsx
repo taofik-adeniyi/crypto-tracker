@@ -9,14 +9,15 @@ export const useIntroSlider = () => {
 
 const IntroSlider = ({children}) => {
   const checkIntroAppScreen = async () => {
+    console.log('rendering');
     try {
       const datata = await AsyncStorage.getItem("@checkintroapp");
-      setShowAppIntro(datata != null ? JSON.parse(datata) : 'true');
+      setShowAppIntro(datata || 'TRUE');
     } catch (e) {
       console.log(e);
     }
   }
-  const [showAppIntro, setShowAppIntro] = useState(() => checkIntroAppScreen());
+  const [showAppIntro, setShowAppIntro] = useState(checkIntroAppScreen());
 
 
   const saveIntroAppScreen = async (value) => {

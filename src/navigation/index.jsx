@@ -15,6 +15,7 @@ import Login from "../screens/Login";
 import StacksNavigator from "./stack";
 import { useIntroSlider } from "../context/introslider";
 import { useAuthContext } from "../context/auth";
+import Welcome from "../screens/Welcome";
 
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -41,13 +42,20 @@ const New = () => {
 function IntroSliderStackScreen() {
   const { isLoggedIn, user } = useAuthContext();
   const { showAppIntro } = useIntroSlider();
+  console.log('what is showAppIntro', showAppIntro === 'TRUE' ? 'write true' : 'write false');
   return (
     <IntroStack.Navigator screenOptions={{headerShown: false}}>
-      {showAppIntro === 'false' ? <IntroStack.Screen name="IntroSlider" component={IntroSlider} /> : null}
+      {showAppIntro === 'TRUE' ? <IntroStack.Screen name="IntroSlider" component={IntroSlider} /> : null}
       
       {/* <IntroStack.Screen name="HomeStackScreen" component={HomeStackScreen} /> */}
-      <IntroStack.Screen name="Register" component={Register} />
-      <IntroStack.Screen name="Login" component={Login} />
+     
+      <IntroStack.Group>
+        <IntroStack.Screen name="Welcome" component={Welcome} />
+        <IntroStack.Screen name="Register" component={Register} />
+        <IntroStack.Screen name="Login" component={Login} />
+      </IntroStack.Group>
+      
+
       <IntroStack.Screen name="Home" component={DrawerNavigator} />
     </IntroStack.Navigator>
   )
