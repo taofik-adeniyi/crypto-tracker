@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TouchableOpacity, Switch } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Switch, Alert } from "react-native";
 import React from "react";
 import {
   useNavigation,
@@ -13,6 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { useAuthContext } from "../../context/auth";
+import { Auth } from 'aws-amplify'
 
 const DrawerScreen = () => {
   const route = useRoute();
@@ -22,6 +23,14 @@ const DrawerScreen = () => {
   const handleNavigate = (route) => {
     navigation.navigate(route);
   };
+
+  const signOut = async () => {
+    try {
+      await Auth.signOut()
+    } catch (error) {
+      Alert.alert(error.message)
+    }
+  }
   console.log("what is navigation?", navigation, route);
   return (
     <View>
@@ -156,7 +165,8 @@ const DrawerScreen = () => {
           paddingLeft: 10,
           alignItems: "center",
         }}
-        onPress={() => logOut()}
+        // onPress={() => logOut()}
+        onPress={signOut}
       >
         <Text style={{ color: "black", fontWeight: "500" }}>Sign out</Text>
       </TouchableOpacity>

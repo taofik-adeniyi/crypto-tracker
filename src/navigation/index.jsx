@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import CoinDetail from "../screens/CoinDetail";
@@ -16,6 +16,9 @@ import StacksNavigator from "./stack";
 import { useIntroSlider } from "../context/introslider";
 import { useAuthContext } from "../context/auth";
 import Welcome from "../screens/Welcome";
+import ForgotPassword from "../screens/ForgotPassword";
+import ResetPassword from "../screens/ResetPassword";
+import { Auth, Hub } from 'aws-amplify'
 
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -42,21 +45,66 @@ const New = () => {
 function IntroSliderStackScreen() {
   const { isLoggedIn, user } = useAuthContext();
   const { showAppIntro } = useIntroSlider();
+  const [myuser, setMyUser] = useState(undefined)
+
+ 
+  const checkUser = async () => {
+    try {
+      const response = await Auth.currentAuthenticatedUser({bypassCache: true})
+    setMyUser(response)
+    } catch (error) {
+      console.log(error.message);
+      setMyUser(null)
+    }
+  }
+  useEffect(() => {
+    checkUser()
+  }, [])
+
+  useEffect(() => {
+    const listener = data => {
+      console.log(data);
+      if(data?.payload.event === 'signOut' || data?.payload.event === 'signIn'){
+        checkUser();
+      }
+    }
+    Hub.listen('auth', listener)
+    return () => Hub.remove('auth', listener)
+  }, [])
   console.log('what is showAppIntro', showAppIntro === 'TRUE' ? 'write true' : 'write false');
+
+  if(myuser === undefined){
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
     <IntroStack.Navigator screenOptions={{headerShown: false}}>
       {showAppIntro === 'TRUE' ? <IntroStack.Screen name="IntroSlider" component={IntroSlider} /> : null}
       
       {/* <IntroStack.Screen name="HomeStackScreen" component={HomeStackScreen} /> */}
-     
-      <IntroStack.Group>
-        <IntroStack.Screen name="Welcome" component={Welcome} />
-        <IntroStack.Screen name="Register" component={Register} />
-        <IntroStack.Screen name="Login" component={Login} />
-      </IntroStack.Group>
+     {
+       myuser ? (
+        <IntroStack.Screen name="Home" component={DrawerNavigator} />
+       ) : (
+         <>
+         <IntroStack.Group>
+         <IntroStack.Screen name="Welcome" component={Welcome} />
+         <IntroStack.Screen name="Register" component={Register} />
+         <IntroStack.Screen name="Login" component={Login} />
+         <IntroStack.Screen name="ForgotPassword" component={ForgotPassword} options={{presentation: 'modal'}} />
+         <IntroStack.Screen name="ResetPassword" component={ResetPassword} options={{presentation: 'modal'}} />
+       </IntroStack.Group>
+         </>
+       )
+     }
+      
       
 
-      <IntroStack.Screen name="Home" component={DrawerNavigator} />
+      
     </IntroStack.Navigator>
   )
 }
@@ -64,6 +112,7 @@ function IntroSliderStackScreen() {
 const Navigation = () => {
   const { showAppIntro } = useIntroSlider();
   const { isLoggedIn, user } = useAuthContext();
+  
   // console.log('wetin be auth 000000', auth, 'app intro', showAppIntro);
   return (
     <Stack.Navigator

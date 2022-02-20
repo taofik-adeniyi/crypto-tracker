@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stopshop-staging-161237-authRole",
+      "UnauthRoleArn": "arn:aws:iam::671026481987:role/amplify-stopshop-staging-161237-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::671026481987:role/amplify-stopshop-staging-161237-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stopshop-staging-161237-deployment",
+      "UnauthRoleName": "amplify-stopshop-staging-161237-unauthRole",
+      "StackName": "amplify-stopshop-staging-161237",
+      "StackId": "arn:aws:cloudformation:us-east-1:671026481987:stack/amplify-stopshop-staging-161237/ebcdc2a0-9267-11ec-8d92-0ab7e9d21121",
+      "AmplifyAppId": "d2yfdfdcv1mhql"
+    },
+    "categories": {
+      "auth": {
+        "stopshop": {}
+      }
+    }
+  }
+}

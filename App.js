@@ -17,9 +17,15 @@ import IntroSlider from "./src/context/introslider";
 import Auth from "./src/context/auth";
 import Theme from "./src/context/theme";
 import AppNavigationContainer from "./AppNavigationContainer";
+import Amplify, { Auth as AwsAuth } from 'aws-amplify'
+import awsconfig from './src/aws-exports'
 
-export default function App() {
 
+Amplify.configure(awsconfig)
+
+
+ const App = () => {
+  // AwsAuth.signOut()
   let [fontsLoaded] = useFonts({
     Inter_900Black,
     Merriweather_300Light,
@@ -49,4 +55,5 @@ export default function App() {
   );
 }
 
+export default App
 
