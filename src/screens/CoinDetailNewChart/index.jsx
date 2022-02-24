@@ -8,12 +8,6 @@ import {
 import React, { useState, useEffect,useCallback } from "react";
 import Header from "./comps/Header";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  ChartDot,
-  ChartPath,
-  ChartPathProvider,
-  ChartYLabel,
-} from "@rainbow-me/animated-charts";
 import coindata from "../../../assets/data/crypto.json";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";

@@ -2,7 +2,6 @@ import { View, Text, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
-import CoinDetail from "../screens/CoinDetail";
 import CoinDetailNewChart from "../screens/CoinDetailNewChart";
 import ConfirmRegister from "../screens/ConfirmRegister";
 import BottomNavigator from "./bottom";
