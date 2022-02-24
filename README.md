@@ -16,3 +16,11 @@ with expo or above
 then
 
 restart expo start --clear
+
+
+################################
+
+remaing screens
+market screens
+wallet screens
+drawer tab 

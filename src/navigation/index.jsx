@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import CoinDetail from "../screens/CoinDetail";
 import CoinDetailNewChart from "../screens/CoinDetailNewChart";
+import ConfirmRegister from "../screens/ConfirmRegister";
 import BottomNavigator from "./bottom";
 import WalletDetail from "../screens/WalletDetail";
 import Settings from "../screens/Settings";
@@ -95,6 +96,7 @@ function IntroSliderStackScreen() {
          <IntroStack.Screen name="Welcome" component={Welcome} />
          <IntroStack.Screen name="Register" component={Register} />
          <IntroStack.Screen name="Login" component={Login} />
+         <IntroStack.Screen name="ConfirmRegister" component={ConfirmRegister} options={{presentation: 'modal'}} />
          <IntroStack.Screen name="ForgotPassword" component={ForgotPassword} options={{presentation: 'modal'}} />
          <IntroStack.Screen name="ResetPassword" component={ResetPassword} options={{presentation: 'modal'}} />
        </IntroStack.Group>

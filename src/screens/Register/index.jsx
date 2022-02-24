@@ -46,109 +46,14 @@ const Register = (props) => {
         },
       });
       console.log(response);
-      setModalVisible(!modalVisible)
+      navigation.navigate('ConfirmRegister', {email: userDetails.email})
     } catch (error) {
       Alert.alert(error.message);
     }
   };
-  const handleConfirm = async () => {
-    try {
-      await Auth.confirmSignUp(userDetails.username, otp)
-      setModalVisible(false)
-      navigation.navigate('Login')
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
-  const handleResend = async () => {
-    try {
-      await Auth.resendSignUp(userDetails.username)
-      Alert.alert('code wa resent to your email');
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
+  
   return (
     <View style={{ flex: 1 }}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Confirm your email</Text>
-            <View style={{ marginVertical: 10 }}>
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: "DroidSans",
-              fontWeight: "bold",
-            }}
-          >
-            Username
-          </Text>
-          <TextInput
-            placeholder="username"
-            style={{
-              marginTop: 10,
-              borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            value={userDetails.username}
-            onChangeText={(text) => setUserDetails({...userDetails, username: text.toLowerCase()})}
-          />
-        </View>
-            <View style={{ marginVertical: 10 }}>
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: "DroidSans",
-              fontWeight: "bold",
-            }}
-          >
-            OTP
-          </Text>
-          <TextInput
-            placeholder="Enter your confirmation code"
-            style={{
-              marginTop: 10,
-              borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
-              paddingHorizontal: 5,
-            }}
-            onChangeText={(text) => setOtp(text)}
-          />
-        </View>
-        <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleConfirm}
-            >
-              <Text style={styles.textStyle}>Confirm</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleResend}
-            >
-              <Text style={styles.textStyle}>Resend code</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-          <Text>back to sign in</Text>
-        </View>
-      </Modal>
       <View style={{ flex: 1 }}>
         {/* <ImageBackground source={image} resizeMode="cover" style={{justifyContent: "center", flex: 1}}>
       <Text style={{color: 'white'}}>Inside</Text>
