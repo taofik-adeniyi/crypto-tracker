@@ -4,11 +4,15 @@ import {
   Pressable,
   ImageBackground,
   TextInput,
-  Alert
+  Alert,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { set } from "react-native-reanimated";
+import KeyboardWrapper from '../../container/KeyboardWrapper'
+
 
 {
   /* <View>
@@ -42,37 +46,33 @@ const Login = (props) => {
     // console.log('hello');
   }
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        {/* <ImageBackground source={image} resizeMode="cover" style={{justifyContent: "center", flex: 1}}>
-      <Text style={{color: 'white'}}>Inside</Text>
-      </ImageBackground> */}
+    <KeyboardWrapper>
+      <View style={{ flex: 1, justifyContent: 'flex-end'}}>
         <Text
           style={{
-            paddingTop: 100,
             paddingHorizontal: 20,
             fontFamily: "Merriweather_900Black",
             fontWeight: "bold",
             fontSize: 26,
             color: "white",
+            paddingBottom: 10
           }}
         >
           Welcome Back!
         </Text>
       </View>
-
-      <View
+    
+          <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
-          height: 620,
+          height: 420,
           border: 1,
           padding: 20,
-          paddingTop: 30,
           backgroundColor: "white",
           borderTopRightRadius: 30,
           borderTopLeftRadius: 30,
-          position: "absolute",
-          bottom: 0,
           width: "100%",
+          flex: 1
         }}
       >
         <View style={{ marginVertical: 10 }}>
@@ -90,7 +90,7 @@ const Login = (props) => {
             style={{
               marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "#25282c",
+              borderBottomColor: "gray",
               paddingVertical: 10,
               paddingHorizontal: 5,
             }}
@@ -114,7 +114,7 @@ const Login = (props) => {
             style={{
               marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "#25282c",
+              borderBottomColor: "gray",
               paddingVertical: 10,
               paddingHorizontal: 5,
             }}
@@ -169,8 +169,8 @@ const Login = (props) => {
             <Text style={{ color: "white", fontWeight: "700" }}>{loading ? 'loading ...' : 'Sign in'}</Text>
           </Pressable>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </KeyboardWrapper>
   );
 };
 

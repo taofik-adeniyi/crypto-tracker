@@ -1,7 +1,9 @@
-import { View, Text, TextInput, Pressable, Alert } from 'react-native'
+import { View, Text, TextInput, Pressable, Alert,  KeyboardAvoidingView, TouchableWithoutFeedback,
+  Platform, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { Auth } from 'aws-amplify'
 import { useNavigation } from '@react-navigation/native'
+import KeyboardWrapper from '../../container/KeyboardWrapper'
 
 const ForgotPassword = () => {
     const navigation = useNavigation()
@@ -16,36 +18,38 @@ const ForgotPassword = () => {
         }
     }
   return (
-    <View style={{ flex: 1 }}>
+    
+        <KeyboardWrapper>
     <View style={{ flex: 1}}>
     <Pressable onPress={() => navigation.goBack()}>
         <Text style={{color: 'white', padding: 20}}>Back</Text>
         </Pressable>
+      <View style={{justifyContent: 'flex-end', flex: 1}}>
       <Text
         style={{
           paddingHorizontal: 20,
-          paddingTop: 250,
           fontFamily: "Merriweather_900Black",
           fontWeight: "bold",
           fontSize: 26,
           color: "white",
+          paddingBottom: 10
         }}
       >
         Forgot Password
       </Text>
+      </View>
     </View>
 
-    <View
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+
       style={{
         height: 420,
         border: 1,
         padding: 20,
-        paddingTop: 30,
         backgroundColor: "white",
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
-        position: "absolute",
-        bottom: 0,
         width: "100%",
       }}
     >
@@ -64,7 +68,7 @@ const ForgotPassword = () => {
           style={{
             marginTop: 10,
             borderBottomWidth: 2,
-            borderBottomColor: "#25282c",
+            borderBottomColor: "gray",
             paddingVertical: 10,
             paddingHorizontal: 5,
           }}
@@ -94,8 +98,8 @@ const ForgotPassword = () => {
               </Text>
         </Pressable>
       </View>
-    </View>
-  </View>
+    </KeyboardAvoidingView>
+    </KeyboardWrapper>
   )
 }
 

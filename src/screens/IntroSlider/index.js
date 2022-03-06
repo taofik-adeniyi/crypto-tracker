@@ -8,26 +8,29 @@ import { useNavigation } from '@react-navigation/native';
 const slides = [
   {
     key: 1,
-    title: 'Title 1',
-    text: 'Description.\nSay something cool',
-    image: require('../../../assets/adaptive-icon.png'),
+    title: 'Welcome to Stop Shop',
+    text: 'Thinking Crypto.\n your one stop shop to buy goods with your crypto',
+    image: require('../../../assets/thinkingcrypto.png'),
     backgroundColor: '#59b2ab',
   },
   {
     key: 2,
-    title: 'Title 2',
-    text: 'Other cool stuff',
-    image: require('../../../assets/adaptive-icon.png'),
+    title: 'Browse our Product\'s',
+    text: 'Check for fashion items electronic\'s and Other cool stuff',
+    image: require('../../../assets/browseproducts.png'),
     backgroundColor: '#febe29',
   },
   {
     key: 3,
-    title: 'Rocket guy',
-    text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
-    image: require('../../../assets/adaptive-icon.png'),
+    title: 'Want to buy a Rocket',
+    // text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
+    text: 'Jerry wont sell at your price contact Tom and have a nice deal',
+    image: require('../../../assets/tradecrypto.png'),
     backgroundColor: '#22bcb5',
   }
 ];
+
+
 
 const NextButton = () => {
   return (
@@ -68,9 +71,13 @@ const DoneButton = () => {
 const renderItem = ({ item }) => {
   return (
     <View style={styles.slide}>
+      <Image source={item.image} style={{width: '90%', height: 300}} />
+      <View style={{marginVertical: 10}}>
       <Text style={styles.title}>{item.title}</Text>
-      <Image source={item.image} />
+      </View>
+      <View style={{width: '85%', marginVertical: 10}}>
       <Text style={styles.text}>{item.text}</Text>
+      </View>
     </View>
   );
 }
@@ -119,10 +126,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slide: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  text: {
+    color: 'gray',
+    fontSize: 16,
+    textAlign: 'center',
   },
   image: {}
   //[...]

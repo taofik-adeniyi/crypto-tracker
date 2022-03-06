@@ -2,6 +2,7 @@ import { View, Text, Pressable, Alert, TextInput } from "react-native";
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { useNavigation } from "@react-navigation/native";
+import KeyboardWrapper from '../../container/KeyboardWrapper'
 
 const ResetPassword = () => {
   const navigation = useNavigation();
@@ -24,7 +25,7 @@ const ResetPassword = () => {
     }
   };
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardWrapper>
       <View style={{ flex: 1 }}>
         <Pressable onPress={() => navigation.goBack()}>
         <Text style={{color: 'white' ,padding: 20}}>Back</Text>
@@ -150,7 +151,7 @@ const ResetPassword = () => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </KeyboardWrapper>
   );
 };
 

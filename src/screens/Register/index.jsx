@@ -6,10 +6,13 @@ import {
   TextInput,
   Alert,
   Modal,
-  StyleSheet
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import KeyboardWrapper from '../../container/KeyboardWrapper'
 
 {
   /* <View>
@@ -53,36 +56,31 @@ const Register = (props) => {
   };
   
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        {/* <ImageBackground source={image} resizeMode="cover" style={{justifyContent: "center", flex: 1}}>
-      <Text style={{color: 'white'}}>Inside</Text>
-      </ImageBackground> */}
+    <KeyboardWrapper>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Text
           style={{
-            paddingTop: 100,
             paddingHorizontal: 20,
             fontFamily: "Merriweather_900Black",
             fontWeight: "bold",
             fontSize: 26,
             color: "white",
+            paddingBottom: 10
           }}
         >
           Welcome!
         </Text>
       </View>
 
-      <View
+      <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
-          height: 620,
+          height: 500,
           border: 1,
           padding: 20,
-          paddingTop: 30,
           backgroundColor: "white",
           borderTopRightRadius: 30,
           borderTopLeftRadius: 30,
-          position: "absolute",
-          bottom: 0,
           width: "100%",
         }}
       >
@@ -99,10 +97,9 @@ const Register = (props) => {
           <TextInput
             placeholder="username"
             style={{
-              marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
+              borderBottomColor: "gray",
+              paddingVertical: 5,
               paddingHorizontal: 5,
             }}
             onChangeText={(text) => setUserDetails({...userDetails, username: text.toLowerCase()})}
@@ -121,10 +118,9 @@ const Register = (props) => {
           <TextInput
             placeholder="name"
             style={{
-              marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
+              borderBottomColor: "gray",
+              paddingVertical: 5,
               paddingHorizontal: 5,
             }}
             onChangeText={(text) => setUserDetails({...userDetails, name: text})}
@@ -143,10 +139,9 @@ const Register = (props) => {
           <TextInput
             placeholder="email"
             style={{
-              marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
+              borderBottomColor: "gray",
+              paddingVertical: 5,
               paddingHorizontal: 5,
             }}
             onChangeText={(text) => setUserDetails({...userDetails, email: text.toLowerCase()})}
@@ -166,22 +161,21 @@ const Register = (props) => {
             secureTextEntry
             placeholder="password"
             style={{
-              marginTop: 10,
               borderBottomWidth: 2,
-              borderBottomColor: "green",
-              paddingVertical: 10,
+              borderBottomColor: "gray",
+              paddingVertical: 5,
               paddingHorizontal: 5,
             }}
             onChangeText={(text) => setUserDetails({...userDetails, password: text})}
           />
         </View>
         <Pressable
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 5 }}
           onPress={() => navigation.navigate("Login")}
         >
           <Text
             style={{
-              paddingVertical: 10,
+              paddingVertical: 5,
               fontWeight: "bold",
               fontFamily: "DroidSans",
               fontSize: 16,
@@ -209,8 +203,8 @@ const Register = (props) => {
             <Text style={{ color: "white", fontWeight: "700" }}>Sign up</Text>
           </Pressable>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </KeyboardWrapper>
   );
 };
 

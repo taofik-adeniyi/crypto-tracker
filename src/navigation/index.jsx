@@ -84,6 +84,7 @@ function IntroSliderStackScreen() {
   return (
     <IntroStack.Navigator screenOptions={{headerShown: false}}>
       {showAppIntro === 'TRUE' ? <IntroStack.Screen name="IntroSlider" component={IntroSlider} /> : null}
+      {/* <IntroStack.Screen name="IntroSlider" component={IntroSlider} /> */}
       
       {/* <IntroStack.Screen name="HomeStackScreen" component={HomeStackScreen} /> */}
      {
